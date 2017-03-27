@@ -57,40 +57,43 @@
 
 #include "choice_init_topo.hpp"
 
-Choice_init_topo::Choice_init_topo(Parameters & par){
-  
+Choice_init_topo::Choice_init_topo(Parameters &par)
+{
+
   /**
    * @details
    * Defines the initialization of the topography
    * from the value given in the parameters file.
    * @param[in] par parameter, contains all the values from the parameters file.
    */
-  
-  switch (par.get_topo()){
-    case 1:
-      topography = new Topo_read(par);
-      break;
-    case 2:
-      topography = new Topo_generated_flat(par);
-      break;
-    case 3:
-      topography = new Topo_generated_Thacker(par);
-      break;
+
+  switch (par.get_topo())
+  {
+  case 1:
+    topography = new Topo_read(par);
+    break;
+  case 2:
+    topography = new Topo_generated_flat(par);
+    break;
+  case 3:
+    topography = new Topo_generated_Thacker(par);
+    break;
   }
 }
 
-void Choice_init_topo::initialization(TAB & topo){
-  
+void Choice_init_topo::initialization(TAB &topo)
+{
+
   /**
    * @details
    * Calls the initialization of the topography.
    * @param[in] topo topography.
    */
-  
+
   topography->initialization(topo);
 }
 
-Choice_init_topo::~Choice_init_topo(){
+Choice_init_topo::~Choice_init_topo()
+{
   delete topography;
 }
-

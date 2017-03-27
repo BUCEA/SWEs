@@ -56,16 +56,16 @@
 
 #include "initialization_topo.hpp"
 
-Initialization_topo::Initialization_topo(Parameters & par):NXCELL(par.get_Nxcell()),NYCELL(par.get_Nycell()),DX(par.get_dx()),DY(par.get_dy()){
-  
+Initialization_topo::Initialization_topo(Parameters &par) : NXCELL(par.get_Nxcell()), NYCELL(par.get_Nycell()), DX(par.get_dx()), DY(par.get_dy())
+{
+
   /**
    * @details   
    * Defines the numbers of cells and the space steps. 
    * @param[in] par parameter, contains all the values from the parameters file.
-   */  
-  
+   */
 }
 
-
-Initialization_topo::~Initialization_topo(){
+Initialization_topo::~Initialization_topo()
+{
 }
