@@ -56,12 +56,13 @@
 
 #include "f_rusanov.hpp"
 
-F_Rusanov::F_Rusanov(){
+F_Rusanov::F_Rusanov()
+{
 }
 
+void F_Rusanov::calcul(SCALAR h_L, SCALAR u_L, SCALAR v_L, SCALAR h_R, SCALAR u_R, SCALAR v_R)
+{
 
-void F_Rusanov::calcul(SCALAR h_L,SCALAR u_L,SCALAR v_L,SCALAR h_R,SCALAR u_R,SCALAR v_R){
-  
   /**
    * @details
    * Recall that this is reduced to a one-dimensional computation along the normal of the mesh edge.\n
@@ -82,26 +83,29 @@ void F_Rusanov::calcul(SCALAR h_L,SCALAR u_L,SCALAR v_L,SCALAR h_R,SCALAR u_R,SC
    * Flux#f3 third componant of the numerical flux.\n
    * Flux#cfl value of the CFL.
    */
-  
+
   SCALAR c;
-  if (h_L<HE_CA && h_R<HE_CA){
+  if (h_L < HE_CA && h_R < HE_CA)
+  {
     c = 0.;
     f1 = 0.;
     f2 = 0.;
     f3 = 0.;
     cfl = 0.;
   }
-  else{
-    c = max(fabs(u_L)+sqrt(GRAV*h_L),fabs(u_R)+sqrt(GRAV*h_R));
-    SCALAR cd = c*0.5;
-    SCALAR q_R = u_R*h_R;
-    SCALAR q_L = u_L*h_L;
-    f1 = (q_L+q_R)*0.5-cd*(h_R-h_L);
-    f2 = ((u_L*q_L)+(GRAV_DEM*h_L*h_L)+(u_R*q_R)+(GRAV_DEM*h_R*h_R))*0.5-cd*(q_R-q_L);
-    f3 = (q_L*v_L+q_R*v_R)*0.5-cd*(h_R*v_R-h_L*v_L);
-    cfl = c;//*tx;
+  else
+  {
+    c = max(fabs(u_L) + sqrt(GRAV * h_L), fabs(u_R) + sqrt(GRAV * h_R));
+    SCALAR cd = c * 0.5;
+    SCALAR q_R = u_R * h_R;
+    SCALAR q_L = u_L * h_L;
+    f1 = (q_L + q_R) * 0.5 - cd * (h_R - h_L);
+    f2 = ((u_L * q_L) + (GRAV_DEM * h_L * h_L) + (u_R * q_R) + (GRAV_DEM * h_R * h_R)) * 0.5 - cd * (q_R - q_L);
+    f3 = (q_L * v_L + q_R * v_R) * 0.5 - cd * (h_R * v_R - h_L * v_L);
+    cfl = c; //*tx;
   }
 }
 
-F_Rusanov::~F_Rusanov(){
+F_Rusanov::~F_Rusanov()
+{
 }
