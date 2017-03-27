@@ -56,62 +56,69 @@
 
 #include "flux.hpp"
 
-Flux::Flux(){
+Flux::Flux()
+{
   f1 = 0.;
   f2 = 0.;
   f3 = 0.;
   cfl = 0.;
 }
 
-void Flux::set_tx(SCALAR tx){
+void Flux::set_tx(SCALAR tx)
+{
   /**
    * @details
    * Sets the value given in parameter to the variable <em> \b tx</em>.
    * @param[in] tx value of dt/dx.
    */
-  
+
   this->tx = tx;
 }
 
-SCALAR Flux::get_f1() const{
-  
+SCALAR Flux::get_f1() const
+{
+
   /**
    * @details
    * @return Flux#f1 first componant of the numerical flux.
    */
-  
+
   return f1;
 }
 
-SCALAR Flux::get_f2() const{
-  
+SCALAR Flux::get_f2() const
+{
+
   /**
    * @details
    * @return Flux#f2 second componant of the numerical flux.
    */
-  
+
   return f2;
 }
 
-SCALAR Flux::get_f3() const{
-  
+SCALAR Flux::get_f3() const
+{
+
   /**
    * @details
    * @return Flux#f3 third componant of the numerical flux.
    */
-  
+
   return f3;
 }
 
-SCALAR Flux::get_cfl() const{
-  
+SCALAR Flux::get_cfl() const
+{
+
   /**
    * @details
    * @return Flux#cfl value of the CFL.
    */
-  
+
   return cfl;
 }
 
-Flux::~Flux(){
+Flux::~Flux()
+{
 }
