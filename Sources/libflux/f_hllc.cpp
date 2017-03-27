@@ -57,11 +57,13 @@
 
 #include "f_hllc.hpp"
 
-F_HLLC::F_HLLC(){
+F_HLLC::F_HLLC()
+{
 }
 
-void F_HLLC::calcul(SCALAR h_L,SCALAR u_L,SCALAR v_L,SCALAR h_R,SCALAR u_R,SCALAR v_R){
-    
+void F_HLLC::calcul(SCALAR h_L, SCALAR u_L, SCALAR v_L, SCALAR h_R, SCALAR u_R, SCALAR v_R)
+{
+
   /**
    * @details
    * The HLLC approximate Riemann solver is a modification of the basic HLL scheme to account for the contact and shear waves (see \cite Toro01).\n
@@ -97,65 +99,80 @@ void F_HLLC::calcul(SCALAR h_L,SCALAR u_L,SCALAR v_L,SCALAR h_R,SCALAR u_R,SCALA
    * Flux#cfl value of the CFL.
    * @note Long double are used locally in the computation to avoid numerical approximations.
    */
-  
-  if (h_L<HE_CA && h_R<HE_CA){
+
+  if (h_L < HE_CA && h_R < HE_CA)
+  {
     f1 = 0.;
     f2 = 0.;
     f3 = 0.;
     cfl = 0.;
   }
-  else{
-    SCALAR grav_h_L = GRAV*h_L;
-    SCALAR grav_h_R = GRAV*h_R;
-    SCALAR q_R = u_R*h_R;
-    SCALAR q_L = u_L*h_L;
+  else
+  {
+    SCALAR grav_h_L = GRAV * h_L;
+    SCALAR grav_h_R = GRAV * h_R;
+    SCALAR q_R = u_R * h_R;
+    SCALAR q_L = u_L * h_L;
     SCALAR c1, c2;
-    if(h_L < HE_CA) {
-      c1 = u_R - 2*sqrt(GRAV*h_R);
-    }else{
-      c1 = min(u_L-sqrt(grav_h_L),u_R-sqrt(grav_h_R)); // as u-sqrt(grav_h) <= u+sqrt(grav_h)    
+    if (h_L < HE_CA)
+    {
+      c1 = u_R - 2 * sqrt(GRAV * h_R);
     }
-    if(h_R < HE_CA) {             //HE_CA=1.e-12
-       c2 = u_L + 2*sqrt(GRAV*h_L);
-    }else{
-       c2 = max(u_L+sqrt(grav_h_L),u_R+sqrt(grav_h_R)); // as u+sqrt(grav_h) >= u-sqrt(grav_h)
+    else
+    {
+      c1 = min(u_L - sqrt(grav_h_L), u_R - sqrt(grav_h_R)); // as u-sqrt(grav_h) <= u+sqrt(grav_h)
+    }
+    if (h_R < HE_CA)
+    { //HE_CA=1.e-12
+      c2 = u_L + 2 * sqrt(GRAV * h_L);
+    }
+    else
+    {
+      c2 = max(u_L + sqrt(grav_h_L), u_R + sqrt(grav_h_R)); // as u+sqrt(grav_h) >= u-sqrt(grav_h)
     }
 
     //cfl is the velocity to calculate the real cfl=max(fabs(c1),fabs(c2))*tx with tx=dt/dx
-    if (fabs(c1)<EPSILON && fabs(c2)<EPSILON){              //dry state
-      f1=0.;
-      f2=0.;
-      f3=0.;
-      cfl=0.; //max(fabs(c1),fabs(c2))=0
+    if (fabs(c1) < EPSILON && fabs(c2) < EPSILON)
+    { //dry state
+      f1 = 0.;
+      f2 = 0.;
+      f3 = 0.;
+      cfl = 0.; //max(fabs(c1),fabs(c2))=0
     }
-    else if (c1>=EPSILON){ //supercritical flow, from left to right : we have max(abs(c1),abs(c2))=c2>0
-      f1=q_L;
-      f2=q_L*u_L+GRAV*h_L*h_L*0.5;
-      f3=q_L*v_L;
-      cfl=c2; //max(fabs(c1),fabs(c2))=c2>0
+    else if (c1 >= EPSILON)
+    { //supercritical flow, from left to right : we have max(abs(c1),abs(c2))=c2>0
+      f1 = q_L;
+      f2 = q_L * u_L + GRAV * h_L * h_L * 0.5;
+      f3 = q_L * v_L;
+      cfl = c2; //max(fabs(c1),fabs(c2))=c2>0
     }
-    else if (c2<=-EPSILON){ //supercritical flow, from right to left : we have max(abs(c1),abs(c2))=-c1>0
-      f1=q_R;
-      f2=q_R*u_R+GRAV*h_R*h_R*0.5;
-      f3=q_R*v_R;
-      cfl=fabs(c1); //max(fabs(c1),fabs(c2))=fabs(c1)
+    else if (c2 <= -EPSILON)
+    { //supercritical flow, from right to left : we have max(abs(c1),abs(c2))=-c1>0
+      f1 = q_R;
+      f2 = q_R * u_R + GRAV * h_R * h_R * 0.5;
+      f3 = q_R * v_R;
+      cfl = fabs(c1); //max(fabs(c1),fabs(c2))=fabs(c1)
     }
-    else{ //subcritical flow
-      SCALAR c_star = (c1*h_R *(u_R - c2) - c2*h_L *(u_L - c1))/(h_R *(u_R - c2) - h_L *(u_L - c1));
-      SCALAR tmp = 1./(c2-c1);
-      f1=(c2*q_L-c1*q_R)*tmp+c1*c2*(h_R-h_L)*tmp;
+    else
+    { //subcritical flow
+      SCALAR c_star = (c1 * h_R * (u_R - c2) - c2 * h_L * (u_L - c1)) / (h_R * (u_R - c2) - h_L * (u_L - c1));
+      SCALAR tmp = 1. / (c2 - c1);
+      f1 = (c2 * q_L - c1 * q_R) * tmp + c1 * c2 * (h_R - h_L) * tmp;
       // long double are used locally to avoid numerical approximations
-      f2=(SCALAR) ((long double)c2*((long double)q_L*(long double)u_L+(long double)GRAV*(long double)h_L*(long double)h_L*0.5)-c1*((long double)q_R*(long double)u_R+(long double)GRAV*(long double)h_R*(long double)h_R*0.5))*(long double)tmp+(long double)c1*(long double)c2*((long double)q_R-(long double)q_L)*(long double)tmp;
-      if(c_star > EPSILON) {
-	f3=f1*v_L;
-      }else{
-	f3=f1*v_R;
+      f2 = (SCALAR)((long double)c2 * ((long double)q_L * (long double)u_L + (long double)GRAV * (long double)h_L * (long double)h_L * 0.5) - c1 * ((long double)q_R * (long double)u_R + (long double)GRAV * (long double)h_R * (long double)h_R * 0.5)) * (long double)tmp + (long double)c1 * (long double)c2 * ((long double)q_R - (long double)q_L) * (long double)tmp;
+      if (c_star > EPSILON)
+      {
+        f3 = f1 * v_L;
       }
-      cfl=max(fabs(c1),fabs(c2));
+      else
+      {
+        f3 = f1 * v_R;
+      }
+      cfl = max(fabs(c1), fabs(c2));
     }
   }
 }
 
-F_HLLC::~F_HLLC(){
+F_HLLC::~F_HLLC()
+{
 }
-
