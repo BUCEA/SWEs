@@ -374,8 +374,10 @@ void Scheme::maincalcscheme(TAB &he, TAB &ve1, TAB &ve2, TAB &qe1, TAB &qe2, TAB
       // see http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html section "Cancellation".
       qes1[i][j] = (SCALAR)((long double)he[i][j] * (long double)ve1[i][j] - (long double)tx * ((long double)f2[i + 1][j] - (long double)f2[i][j] + (long double)GRAV_DEM * (((long double)h1left[i][j] - (long double)h1l[i][j]) * ((long double)h1left[i][j] + (long double)h1l[i][j]) + ((long double)h1r[i][j] - (long double)h1right[i][j]) * ((long double)h1r[i][j] + (long double)h1right[i][j]) + ((long double)h1l[i][j] + (long double)h1r[i][j]) * (long double)delzc1[i][j])) - (long double)ty * ((long double)g2[i][j + 1] - (long double)g2[i][j]));
       qes2[i][j] = (SCALAR)((long double)he[i][j] * (long double)ve2[i][j] - (long double)tx * ((long double)f3[i + 1][j] - (long double)f3[i][j]) - (long double)ty * ((long double)g3[i][j + 1] - (long double)g3[i][j] + (long double)GRAV_DEM * (((long double)h2left[i][j] - (long double)h2l[i][j]) * ((long double)h2left[i][j] + (long double)h2l[i][j]) + ((long double)h2r[i][j] - (long double)h2right[i][j]) * ((long double)h2r[i][j] + (long double)h2right[i][j]) + ((long double)h2l[i][j] + (long double)h2r[i][j]) * (long double)delzc2[i][j])));
-    } //end for j
-  }   //end for i
+      //qes1[i][j]=he[i][j]*ve1[i][j]-dt/dx*(f2[i+1][j]-f2[i][j]+g/2*(h1left[i][j]^2-h1l[i][j]^2+h1r[i][j]^2-h1right[i][j]^2+(h1l[i][j]+h1r[i][j])*delzc1[i][j]))-dt/dy*(g2[i][j+1]-g2[i][j])
+      //qes2[i][j]=he[i][j]*ve2[i][j]-dt/dx*(f3[i+1]-f3[i][j])-dt/dy*(g3[i][j+1]-g3[i][j]+g/2*(h2left[i][j]^2-h2l[i][j]+h2r[i][j]^2-h2right[i][j]^2+(h2l[i][j]+h2r[i][j])*delzc2[i][j]))
+    } //end for j h1r and h1l are origin water depth on the cell located at the left and right of the boundary along x
+  }   //end for i h1left and h1right are hydrostatic reconstruction on the left and right along x 
 
   //Friction
   fric->calcul(ve1, ve2, hes, qes1, qes2, dt);
