@@ -126,7 +126,7 @@ void Topo_read::initialization(TAB &topo)
         exit(EXIT_FAILURE);
       }
       //We compute the index of the topo array from the space variable in the input file.
-      row = (int)ceil(x / DX);
+      row = (int)ceil(x / DX);  //row and column value are chaged after read into the x and y value
       column = (int)ceil(y / DY); //The index corresponds to the smallest integer superior or equal to x/DX or y/DY.
 
       //Error if the x or y value of the input file is out of the domain.
