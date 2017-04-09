@@ -65,7 +65,7 @@
 /** @class Rif_read
  * @brief File configuration
  * @details 
- * Class that initializes the water height and of the velocity
+ * Class that initializes the rainfall, infiltration and friction choice
  * to the values read in a file.
  */
 
@@ -79,7 +79,7 @@ class Rif_read: public Initialization_rif{
     void initialization(TAB &,TAB &,TAB &);
   
     /** @brief Destructor */
-    virtual ~Rof_read();
+    virtual ~Rif_read();
   
   private:
     string rif_namefile;

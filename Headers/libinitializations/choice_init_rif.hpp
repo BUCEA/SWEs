@@ -59,11 +59,11 @@
 #include "initialization_rif.hpp"
 #endif
 
-/*#ifndef RIF_READ_HPP
+#ifndef RIF_READ_HPP
 #include "rif_read.hpp"
 #endif
 
-#ifndef RIF_GENERATED_HPP
+/*#ifndef RIF_GENERATED_HPP
 #include "rif_generated.hpp"
 #endif
 

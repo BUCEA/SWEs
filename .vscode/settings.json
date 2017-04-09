@@ -4,6 +4,8 @@
         "string": "cpp",
         "iterator": "cpp",
         "vector": "cpp",
-        "xiosbase": "cpp"
+        "xiosbase": "cpp",
+        "iostream": "cpp",
+        "xlocale": "cpp"
     }
 }
