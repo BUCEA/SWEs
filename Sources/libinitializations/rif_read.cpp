@@ -69,14 +69,14 @@ Rif_read::Rif_read(Parameters & par):Initialization_rif(par){
 }
 
 
-void Rif_read::initialization(TAB & rain,TAB & infi,TAB & fric){
+void Rif_read::initialization(TAB & rain_c,TAB & infi_c,TAB & fric_c){
   
   /**
    * @details
    * Initializes the rainfall, infiltration and friction choice to the values read in the corresponding file.
-   * @param[in, out] rain rainfall choice.
-   * @param[in, out] infi infiltration choice.
-   * @param[in, out] fric friction choice.
+   * @param[in, out] rain_c rainfall choice.
+   * @param[in, out] infi_c infiltration choice.
+   * @param[in, out] fric_c friction choice.
    * @warning (rif_namefile): ERROR: cannot open the rif file.
    * @warning (rif_namefile): ERROR: the number of data in this file is too big
    * @warning (rif_namefile): ERROR: line ***.
@@ -105,7 +105,7 @@ void Rif_read::initialization(TAB & rain,TAB & infi,TAB & fric){
   //So that we will be able to check that the user fills the variables r, i and f properly.
   for (int i=1 ; i<NXCELL+1 ; i++){
     for (int j=1 ; j<NYCELL+1 ; j++){
-      rain[i][j]=MAX_SCAL;
+      rain_c[i][j]=MAX_SCAL;
     } //end for j
   } //end for i
   
@@ -161,9 +161,9 @@ void Rif_read::initialization(TAB & rain,TAB & infi,TAB & fric){
       }
       
       //Store the input values into the rain, infi and fric arrays.
-      rain[row][column]=r_init;
-      infi[row][column]=i_init;
-      fric[row][column]=f_init;
+      rain_c[row][column]=r_init;
+      infi_c[row][column]=i_init;
+      fric_c[row][column]=f_init;
       
     }
     else{
@@ -188,7 +188,7 @@ void Rif_read::initialization(TAB & rain,TAB & infi,TAB & fric){
   //Final check: Does all the grid cells were filled with a value?
   for (int i=1 ; i<NXCELL+1 ; i++){
     for (int j=1 ; j<NYCELL+1 ; j++){
-      if(rain[i][j]>=MAX_SCAL){
+      if(rain_c[i][j]>=MAX_SCAL){
         cerr<< rif_namefile<< ": ERROR: the value for the point x ="<< (i-0.5)*DX <<" y = "<< (j-0.5)*DY <<" is missing!"<<endl;
         exit(EXIT_FAILURE);
       }

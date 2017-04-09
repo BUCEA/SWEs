@@ -87,17 +87,17 @@ Choice_init_rif::Choice_init_rif(Parameters & par)
   }
 }
 
-void Choice_init_rif::initialization(TAB & r,TAB & i,TAB & f){
+void Choice_init_rif::initialization(TAB & rain_c,TAB & infi_c,TAB & fric_c){
   
   /**
    * @details
    * Calls the initialization of the rainfall, infiltration and friction choice.
-   * @param[in] r rainfall choice.
-   * @param[in] i infiltration choice.
-   * @param[in] f friction choice.
+   * @param[in] rain_c rainfall choice.
+   * @param[in] infi_c infiltration choice.
+   * @param[in] fric_c friction choice.
    */
   
-  rif_init->initialization(r,i,f);
+  rif_init->initialization(rain_c,infi_c,fric_c);
 }
 
 Choice_init_rif::~Choice_init_rif(){

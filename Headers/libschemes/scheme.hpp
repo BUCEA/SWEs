@@ -86,6 +86,10 @@
 #include "choice_init_huv.hpp"
 #endif
 
+#ifndef CHOICE_INIT_RIF_HPP
+#include "choice_init_rif.hpp"
+#endif
+
 #ifndef CHOICE_RAIN_HPP
 #include "choice_rain.hpp"
 #endif
@@ -193,6 +197,12 @@ protected:
   TAB u;
   /** Second componant of the velocity.*/
   TAB v;
+  /** Rainfall choice of each cell.*/
+  TAB rain_c;
+  /** Infiltration choice of each cell.*/
+  TAB infi_c;
+  /** Friction choice of each cell.*/
+  TAB fric_c;
   /** First componant of the discharge.*/
   TAB q1;
   /** Second componant of the discharge.*/
@@ -325,5 +335,6 @@ private:
   Choice_infiltration *I;
   Choice_init_topo *topo;
   Choice_init_huv *huv_init;
+  Choice_init_rif *rif_init;
 };
 #endif

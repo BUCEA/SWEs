@@ -84,6 +84,11 @@ Scheme::Scheme(Parameters &par) : NXCELL(par.get_Nxcell()), NYCELL(par.get_Nycel
   // Initialization of h, u, v
   huv_init = new Choice_init_huv(par);
   huv_init->initialization(h, u, v);
+
+  // Initialization of Rainfall, Infiltration and Friction choice
+  rif_init = new Choice_init_rif(par);
+  rif_init->initialization(rain_c, infi_c, fric_c);
+
   Vol_of_tot = 0.;
 
   flux_num = new Choice_flux(par.get_flux());
