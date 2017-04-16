@@ -93,5 +93,8 @@ using namespace std;
 typedef double SCALAR;/*If you change the data type of SCALAR, don't forget to change the macro definition MAX_SCAL*/
 
 /*Maximum finite representable floating-point number of SCALAR.*/
-#define MAX_SCAL DBL_MAX
+#define MAX_SCAL DBL_MAX //MAX_SCAL=-1
+//predefine two dimensional vector constructed from scalar s (fills all components with s) 
 typedef vector< vector< SCALAR > > TAB;
+//predefine one dimensional vector constructed from scalar s (fills all components with s) 
+typedef vector<SCALAR> vect;

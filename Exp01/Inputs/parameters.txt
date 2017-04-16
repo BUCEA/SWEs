@@ -38,7 +38,7 @@ Initialization of h, u and v (1=file 2=h,u&v=0 3=Thacker 4=Radial_Dam_dry 5=Radi
 Name of the huv initialization file <huv_NF>:: 
 
 Initialization of r, i and f (1=file 2=r,i&f=0 3=Thacker 4=Radial_Dam_dry 5=Radial_Dam_wet) <rif_init>:: 1
-Name of the rif initialization file <rif_NF>:: rif.txt 
+Name of the rif initialization file <rif_NF>:: rif.txt
 
 Infiltration model (0=No Infiltration 1=Green-Ampt) <inf>:: 1
 zcrust, thickness of the crust (1=file 2=const_coef) <zcrust_init>:: 2

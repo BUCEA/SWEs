@@ -5,7 +5,7 @@
  * @version 1.06.00
  * @date 2015-02-19
  *
- * @brief %Initialization of r, i and f
+ * @brief %Initialization of rain_c, infi_c and fric_c
  * @details 
  * Common part for all the initialization of the rainfall, infiltration and friction choice.
  *
@@ -63,9 +63,27 @@ Initialization_rif::Initialization_rif(Parameters & par):NXCELL(par.get_Nxcell()
    * Defines the numbers of cells and the space steps.
    * @param[in] par parameter, contains all the values from the parameters file.
    */
-  
+  rain_c.resize(NXCELL+2);
+  infi_c.resize(NXCELL+2);
+  fric_c.resize(NXCELL+2);
+  for (int i = 0; i <=NXCELL+1; i++)
+  {
+    rain_c[i].resize(NYCELL+2);
+    infi_c[i].resize(NYCELL+2);
+    fric_c[i].resize(NYCELL+2);
+  }
 }
 
 
-Initialization_rif::~Initialization_rif(){
+Initialization_rif::~Initialization_rif()
+{
+  for (int i = 0; i <= NXCELL+1; i++)
+  {
+    rain_c[i].clear();
+    infi_c[i].clear();
+    fric_c[i].clear();
+  }
+  rain_c.clear();
+  infi_c.clear();
+  fric_c.clear();
 }

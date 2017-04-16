@@ -78,6 +78,9 @@ Name of the topography file  <topo_NF>:: topography.txt
 Initialization of h, u and v (1=file 2=h,u&v=0 3=Thacker 4=Radial_Dam_dry 5=Radial_Dam_wet)  <huv_init>:: 2
 Name of the huv initialization file  <huv_NF>:: 
 
+Initialization of r, i and f (1=file 2=r,i&f=0 3=Thacker 4=Radial_Dam_dry 5=Radial_Dam_wet)  <rif_init>:: 1
+Name of the rif initialization file  <rif_NF>:: rif.txt
+
 Rain (0=no rain 1=file 2=function)  <rain>:: 1
 Name of the rain file  <rain_NF>:: generatedRainFile.txt
 

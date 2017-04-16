@@ -57,20 +57,21 @@
 
 #include "rif_read.hpp"
 
-Rif_read::Rif_read(Parameters & par):Initialization_rif(par){
-  
+Rif_read::Rif_read(Parameters &par) : Initialization_rif(par)
+{
+
   /**
    * @details   
    * Defines the name of the file for the initialization.
    * @param[in] par parameter, contains all the values from the parameters file.
    */
-  
+
   rif_namefile = par.get_rifNameFile();
 }
 
+void Rif_read::initialization(TAB &rain_c, TAB &infi_c, TAB &fric_c)
+{
 
-void Rif_read::initialization(TAB & rain_c,TAB & infi_c,TAB & fric_c){
-  
   /**
    * @details
    * Initializes the rainfall, infiltration and friction choice to the values read in the corresponding file.
@@ -85,22 +86,33 @@ void Rif_read::initialization(TAB & rain_c,TAB & infi_c,TAB & fric_c){
    * @warning (rif_namefile): ERROR: the value for the point x *** y *** is missing
    * @note If the file cannot be opened or if the data are not correct, the code will exit with failure termination code.
    */
-  
-  SCALAR x, y,r_init,i_init,f_init;
+
+  SCALAR x, y, r_init, i_init, f_init;
   int row, column;
-  int it=0; //iterator
-  int num_lin=0; //iterator
-  string line;// string to store a line of the input file
-  char car;//First character of a commentary line
-  
+  int it = 0;      //iterator
+  int num_lin = 0; //iterator
+  string line;     // string to store a line of the input file
+  char car;        //First character of a commentary line
+
+  rain_c.resize(NXCELL + 2);
+  infi_c.resize(NXCELL + 2);
+  fric_c.resize(NXCELL + 2);
+  for (int i = 0; i <= NXCELL + 1; i++)
+  {
+    rain_c[i].resize(NYCELL + 2);
+    infi_c[i].resize(NYCELL + 2);
+    fric_c[i].resize(NYCELL + 2);
+  }
+
   //Opening the file and verification if it exists.
-  ifstream getdata(rif_namefile.c_str(),ios::in);
-  if (!getdata){ 
+  ifstream getdata(rif_namefile.c_str(), ios::in);
+  if (!getdata)
+  {
     //The input file cannot be opened.
-    cerr << rif_namefile  << ": ERROR: cannot open the rif file\n";
+    cerr << rif_namefile << ": ERROR: cannot open the rif file\n";
     exit(EXIT_FAILURE);
   }
-  
+
   //Initialization of rainfall choice to the largest finite representable floating-point number.
   //So that we will be able to check that the user fills the variables r, i and f properly.
   for (int i=1 ; i<NXCELL+1 ; i++){
@@ -108,96 +120,109 @@ void Rif_read::initialization(TAB & rain_c,TAB & infi_c,TAB & fric_c){
       rain_c[i][j]=MAX_SCAL;
     } //end for j
   } //end for i
-  
-  // As long as the end of the file is not reached, the next line is read. 
-  while (!getdata.eof()){  
+
+  // As long as the end of the file is not reached, the next line is read.
+  while (!getdata.eof())
+  {
     num_lin++;
-    getline (getdata, line, '\n');       // read a line
-    istringstream entree (line);    
-    if (entree >> x >> y >> r_init >> i_init >> f_init) {
-      
-      //Check that the input file contains the expected number of data. 
-      if(++it > NXCELL*NYCELL){
-        cerr << rif_namefile << ": ERROR: the number of data in this file is too big!"<<endl;
+    getline(getdata, line, '\n'); // read a line
+    istringstream entree(line);
+    if (entree >> x >> y >> r_init >> i_init >> f_init)
+    {
+      //Check that the input file contains the expected number of data.
+      if (++it > NXCELL * NYCELL)
+      {
+        cerr << rif_namefile << ": ERROR: the number of data in this file is too big!" << endl;
         exit(EXIT_FAILURE);
       }
-      
-      //We compute the index of the h, u and v arrays from the space variable in the input file.
-      row=(int)ceil(x/DX); column=(int)ceil(y/DY); //The index corresponds to the smallest integer superior or equal to x/DX or y/DY.
-      
+      //We compute the index of the r, i and f arrays from the space variable in the input file.
+      row = (int)ceil(x / DX);
+      column = (int)ceil(y / DY); //The index corresponds to the smallest integer superior or equal to x/DX or y/DY.
+
       //Error if the x or y value of the input file is out of the domain.
-      if(x < 0){
-        cerr<< rif_namefile <<": ERROR: line "<< num_lin<<", x = "<< x <<" must be positive."<< endl;
+      if (x < 0)
+      {
+        cerr << rif_namefile << ": ERROR: line " << num_lin << ", x = " << x << " must be positive." << endl;
         exit(EXIT_FAILURE);
       }
-      if(y < 0){
-        cerr<< rif_namefile <<": ERROR: line "<< num_lin<<", y = "<< y <<" must be positive."<< endl;
+      if (y < 0)
+      {
+        cerr << rif_namefile << ": ERROR: line " << num_lin << ", y = " << y << " must be positive." << endl;
         exit(EXIT_FAILURE);
       }
-      if(x > NXCELL*DX){
-        cerr<< rif_namefile <<": ERROR: line "<< num_lin<<", x = "<< x <<" must be lower than "<< NXCELL*DX <<"."<< endl;
+      if (x > NXCELL * DX)
+      {
+        cerr << rif_namefile << ": ERROR: line " << num_lin << ", x = " << x << " must be lower than " << NXCELL * DX << "." << endl;
         exit(EXIT_FAILURE);
       }
-      if(y > NYCELL*DY){
-        cerr<< rif_namefile <<": ERROR: at line "<< num_lin<<", y = "<< y <<" must be lower than "<< NYCELL*DY <<"."<< endl;
+      if (y > NYCELL * DY)
+      {
+        cerr << rif_namefile << ": ERROR: at line " << num_lin << ", y = " << y << " must be lower than " << NYCELL * DY << "." << endl;
         exit(EXIT_FAILURE);
       }
-      
+
       //Error if the x or y value of the input file is not near the center of the cell.
-      if (fabs(x - (row-0.5)*DX) > DX*RATIO_CLOSE_CELL){
-        cout<< rif_namefile <<": ERROR: line "<< num_lin<<"; x = "<< x <<";\n This value is not close enough to the center of the cell.\n You may want to replace it with " << (row-0.5)*DX <<endl;
+      if (fabs(x - (row - 0.5) * DX) > DX * RATIO_CLOSE_CELL)
+      {
+        cout << rif_namefile << ": ERROR: line " << num_lin << "; x = " << x << ";\n This value is not close enough to the center of the cell.\n You may want to replace it with " << (row - 0.5) * DX << endl;
         exit(EXIT_FAILURE);
       }
-      if (fabs(y - (column-0.5)*DY) > DY*RATIO_CLOSE_CELL){
-        cout<<"column ="<<column<<endl;
-        cout<< rif_namefile <<": ERROR: line "<< num_lin<<"; y = "<< y <<";\n This value is not close enough to the center of the cell.\n You may want to replace it with " << (column-0.5)*DY <<endl;
+      if (fabs(y - (column - 0.5) * DY) > DY * RATIO_CLOSE_CELL)
+      {
+        cout << "column =" << column << endl;
+        cout << rif_namefile << ": ERROR: line " << num_lin << "; y = " << y << ";\n This value is not close enough to the center of the cell.\n You may want to replace it with " << (column - 0.5) * DY << endl;
         exit(EXIT_FAILURE);
       }
-      
+
       // Error if the rainfall choice r_init is negative.
-      if (r_init < 0){ 
-        cerr<< rif_namefile  <<": ERROR: line "<< num_lin<<"; A NEGATIVE initial rainfall choice was encountered in this file."<< endl;
+      if (r_init < 0)
+      {
+        cerr << rif_namefile << ": ERROR: line " << num_lin << "; A NEGATIVE initial rainfall choice was encountered in this file." << endl;
         exit(EXIT_FAILURE);
       }
-      
+
       //Store the input values into the rain, infi and fric arrays.
-      rain_c[row][column]=r_init;
-      infi_c[row][column]=i_init;
-      fric_c[row][column]=f_init;
-      
+
+      rain_c[row][column] = r_init;
+      infi_c[row][column] = i_init;
+      fric_c[row][column] = f_init;
     }
-    else{
-      car='#'; //Initialization of the character used to identify the beginning of a comment
-      istringstream entree_car (line);
+    else
+    {
+      car = '#'; //Initialization of the character used to identify the beginning of a comment
+      istringstream entree_car(line);
       entree_car >> car;
-      if (car != '#'){
-        cout << rif_namefile << ": WARNING: line "<< num_lin <<"; a commentary should begin with the # symbol " <<endl;
+      if (car != '#')
+      {
+        cout << rif_namefile << ": WARNING: line " << num_lin << "; a commentary should begin with the # symbol " << endl;
       }
     }
   }
-  
+
   //Closing the input file
   getdata.close();
-  
-  //Check that the input file contains the expected number of data. 
-  if(it < NXCELL*NYCELL){
-    cerr << rif_namefile<< ": ERROR: the number of data in this file is too small!"<<endl;
+
+  //Check that the input file contains the expected number of data.
+  if (it < NXCELL * NYCELL)
+  {
+    cerr << rif_namefile << ": ERROR: the number of data in this file is too small!" << endl;
     exit(EXIT_FAILURE);
   }
-  
+
   //Final check: Does all the grid cells were filled with a value?
-  for (int i=1 ; i<NXCELL+1 ; i++){
-    for (int j=1 ; j<NYCELL+1 ; j++){
-      if(rain_c[i][j]>=MAX_SCAL){
-        cerr<< rif_namefile<< ": ERROR: the value for the point x ="<< (i-0.5)*DX <<" y = "<< (j-0.5)*DY <<" is missing!"<<endl;
+  for (int i = 1; i < NXCELL + 1; i++)
+  {
+    for (int j = 1; j < NYCELL + 1; j++)
+    {
+      if (rain_c[i][j] >= MAX_SCAL)
+      {
+        cerr << rif_namefile << ": ERROR: the value for the point x =" << (i - 0.5) * DX << " y = " << (j - 0.5) * DY << " is missing!" << endl;
         exit(EXIT_FAILURE);
       }
     } //end for j
-  } //end for i  
-
+  }   //end for i
 }
 
-
-Rif_read::~Rif_read(){
+Rif_read::~Rif_read()
+{
 }
-

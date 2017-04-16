@@ -84,6 +84,6 @@ class Rif_read: public Initialization_rif{
   private:
     string rif_namefile;
     SCALAR r_init,i_init,f_init;
-    
+
 };
 #endif

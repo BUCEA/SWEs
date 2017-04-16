@@ -68,8 +68,17 @@
  */
 
 
-class Initialization_rif{
-  
+class Initialization_rif{    
+  protected :
+    /** Number of cells in space in the x direction. */
+    const int NXCELL;
+    /** Number of cells in space in the y direction. */
+    const int NYCELL;
+    /** Space step in the x direction. */
+    const SCALAR DX;
+    /** Space step in the y direction. */
+    const SCALAR DY;
+    
   public:
   
     /** @brief Constructor */
@@ -80,16 +89,7 @@ class Initialization_rif{
   
     /** @brief Destructor */
     virtual ~Initialization_rif();
-    
-  protected :
-    /** Number of cells in space in the x direction. */
-    const int NXCELL;
-    /** Number of cells in space in the y direction. */
-    const int NYCELL;
-    /** Space step in the x direction. */
-    const SCALAR DX;
-    /** Space step in the y direction. */
-    const SCALAR DY;
+    TAB rain_c, infi_c,fric_c;
 };
 #endif
 

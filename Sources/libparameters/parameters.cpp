@@ -1540,19 +1540,19 @@ void Parameters::setparameters(const char *FILENAME)
   switch (huv_init)
   {
   case 1:
-    cout << "hu initial condition = file reading" << endl;
+    cout << "huv initial condition = file reading" << endl;
     break;
   case 2:
-    cout << "hu initial condition = h, u & v = 0 " << endl;
+    cout << "huv initial condition = h, u & v = 0 " << endl;
     break;
   case 3:
-    cout << "hu initial condition = function thacker" << endl;
+    cout << "huv initial condition = function thacker" << endl;
     break;
   case 4:
-    cout << "hu initial condition = function Radial_Dam_dry" << endl;
+    cout << "huv initial condition = function Radial_Dam_dry" << endl;
     break;
   case 5:
-    cout << "hu initial condition = function Radial_Dam_wet" << endl;
+    cout << "huv initial condition = function Radial_Dam_wet" << endl;
   }
 
   cout << "---------------------------------------------------------" << endl;
