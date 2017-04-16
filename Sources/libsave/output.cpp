@@ -365,7 +365,7 @@ SCALAR Output::boundaries_flux(SCALAR time, TAB &flux_u, TAB &flux_v, SCALAR dt,
 
 void Output::boundaries_flux_LR(SCALAR time, TAB LR_flux)
 {
-
+(void)LR_flux;
   /**
    * @details
    * @param[in] time current time.
@@ -383,7 +383,7 @@ void Output::boundaries_flux_LR(SCALAR time, TAB LR_flux)
 
 void Output::boundaries_flux_BT(SCALAR time, TAB BT_flux)
 {
-
+(void)BT_flux;
   /*
    * @details
    * @param[in] time current time.

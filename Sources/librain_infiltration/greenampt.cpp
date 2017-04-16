@@ -267,7 +267,7 @@ SCALAR GreenAmpt::capacity(const SCALAR h, const SCALAR Vin_tot, const SCALAR dt
    * @param[in] zcrust thickness of the (upper) crust.
    * @return <em> \b Ic</em>: infiltration capacity.  
    */
-
+  (void)h;  //unused variable
   (void)dt; //unused variable
 
   if (zcrust < EPSILON)
