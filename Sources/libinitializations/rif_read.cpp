@@ -94,16 +94,6 @@ void Rif_read::initialization(TAB &rain_c, TAB &infi_c, TAB &fric_c)
   string line;     // string to store a line of the input file
   char car;        //First character of a commentary line
 
-  rain_c.resize(NXCELL + 2);
-  infi_c.resize(NXCELL + 2);
-  fric_c.resize(NXCELL + 2);
-  for (int i = 0; i <= NXCELL + 1; i++)
-  {
-    rain_c[i].resize(NYCELL + 2);
-    infi_c[i].resize(NYCELL + 2);
-    fric_c[i].resize(NYCELL + 2);
-  }
-
   //Opening the file and verification if it exists.
   ifstream getdata(rif_namefile.c_str(), ios::in);
   if (!getdata)

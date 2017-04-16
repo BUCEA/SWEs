@@ -89,7 +89,6 @@ class Initialization_rif{
   
     /** @brief Destructor */
     virtual ~Initialization_rif();
-    TAB rain_c, infi_c,fric_c;
 };
 #endif
 

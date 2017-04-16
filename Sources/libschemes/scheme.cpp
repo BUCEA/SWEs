@@ -515,13 +515,15 @@ void Scheme::allocation()
    * Scheme#h2left, Scheme#h2l, Scheme#u2l, Scheme#v2l, Scheme#h2right, Scheme#h2r, Scheme#u2r, Scheme#v2r,
    * Scheme#delz1, Scheme#delz2, Scheme#delzc1, Scheme#delzc2, Scheme#Rain.
    */
-
+  rain_c.resize(NXCELL+2);  // i : 0->NXCELL+1
+  infi_c.resize(NXCELL+2);  // i : 0->NXCELL+1
+  fric_c.resize(NXCELL+2);  // i : 0->NXCELL+1
   Rain.resize(NXCELL + 2); // i : 0->NXCELL+1
-
   z.resize(NXCELL + 2);  // i : 0->NXCELL+1
   h.resize(NXCELL + 2);  // i : 0->NXCELL+1
   u.resize(NXCELL + 2);  // i : 0->NXCELL+1
   v.resize(NXCELL + 2);  // i : 0->NXCELL+1
+  
   q1.resize(NXCELL + 1); // i : 1->NXCELL
   q2.resize(NXCELL + 1); // i : 1->NXCELL
 
@@ -558,6 +560,9 @@ void Scheme::allocation()
   delzc1.resize(NXCELL + 1);  // i : 1->NXCELL
   delzc2.resize(NXCELL + 1);  // i : 1->NXCELL
 
+  rain_c[0].resize(NYCELL+2); // j : 0->NYCELL+1
+  infi_c[0].resize(NYCELL+2); // j : 0->NYCELL+1
+  fric_c[0].resize(NYCELL+2); // j : 0->NYCELL+1
   Rain[0].resize(NYCELL + 2);    // j : 0->NYCELL+1
   z[0].resize(NYCELL + 2);       // j : 0->NYCELL+1
   h[0].resize(NYCELL + 2);       // j : 0->NYCELL+1
@@ -574,6 +579,9 @@ void Scheme::allocation()
 
   for (int i = 1; i <= NXCELL; i++)
   {
+    rain_c[i].resize(NYCELL+2); // j : 0->NYCELL+1
+    infi_c[i].resize(NYCELL+2); // j : 0->NYCELL+1
+    fric_c[i].resize(NYCELL+2); // j : 0->NYCELL+1
     Rain[i].resize(NYCELL + 2); // j : 0->NYCELL+1
     z[i].resize(NYCELL + 2);    // j : 0->NYCELL+1
     h[i].resize(NYCELL + 2);    // j : 0->NYCELL+1
@@ -622,7 +630,9 @@ void Scheme::allocation()
     delzc1[i].resize(NYCELL + 1);  // j : 1->NYCELL
     delzc2[i].resize(NYCELL + 1);  // j : 1->NYCELL
   }
-
+  rain_c[NXCELL + 1].resize(NYCELL+2); // j : 0->NYCELL+1
+  infi_c[NXCELL + 1].resize(NYCELL+2); // j : 0->NYCELL+1
+  fric_c[NXCELL + 1].resize(NYCELL+2); // j : 0->NYCELL+1
   Rain[NXCELL + 1].resize(NYCELL + 2); // j : 0->NYCELL+1
   z[NXCELL + 1].resize(NYCELL + 2);    // j : 0->NYCELL+1
   h[NXCELL + 1].resize(NYCELL + 2);    // j : 0->NYCELL+1
@@ -656,6 +666,7 @@ void Scheme::deallocation()
   delete Prain;
   delete topo;
   delete huv_init;
+  delete rif_init;
   delete flux_num;
   delete fric;
   delete I;
@@ -665,6 +676,9 @@ void Scheme::deallocation()
   delete Bbound;
   delete Tbound;
 
+  rain_c[0].clear();
+  infi_c[0].clear();
+  fric_c[0].clear();
   Rain[0].clear();
   z[0].clear();
   h[0].clear();
@@ -682,6 +696,9 @@ void Scheme::deallocation()
   for (int i = 1; i <= NXCELL; i++)
   {
 
+    rain_c[i].clear();
+    infi_c[i].clear();
+    fric_c[i].clear();
     Rain[i].clear();
     z[i].clear();
     Vin_tot[i].clear();
@@ -722,7 +739,9 @@ void Scheme::deallocation()
     delzc1[i].clear();
     delzc2[i].clear();
   }
-
+  rain_c[NXCELL + 1].clear();
+  infi_c[NXCELL + 1].clear();
+  fric_c[NXCELL + 1].clear();
   Rain[NXCELL + 1].clear();
   z[NXCELL + 1].clear();
   h[NXCELL + 1].clear();
@@ -739,6 +758,9 @@ void Scheme::deallocation()
   u1l[NXCELL + 1].clear();
   v1l[NXCELL + 1].clear();
 
+  rain_c.clear();
+  infi_c.clear();
+  fric_c.clear();
   z.clear();
   h.clear();
   u.clear();
